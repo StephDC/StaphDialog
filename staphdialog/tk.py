@@ -1,7 +1,5 @@
 #!/usr/bin/python3
 
-import threading
-import time
 import tkinter.ttk
 
 class Window(tkinter.Tk):
