@@ -63,19 +63,11 @@ class progress():
     def update(self, value: int):
         if value > self.maxval:
             raise ValueError("Specified value greater than max value")
-        value = str(100 * self.maxval / value)+"\n"
-        try:
-            self.process.communicate(value.encode("ascii"), 0.1)
-        except TimeoutError:
-            pass
-        else:
-            raise IOError("Broken communication")
+        value = str(100 * value / self.maxval)+"\n"
+        self.process.stdin.write(value.encode("ascii"))
+        self.process.stdin.flush()
     def prompt(self, value: str):
-        try:
-            self.process.communicate(b"#" + value.encode("utf-8")+"\n")
-        except TimeoutError:
-            pass
-        else:
-            raise IOError("Broken communication")
+        self.process.stdin.write(b"#" + value.encode("utf-8")+"\n")
+        self.process.stdin.flush()
     def check(self):
         return self.process.poll() is None

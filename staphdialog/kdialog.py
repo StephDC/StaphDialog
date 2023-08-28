@@ -38,15 +38,20 @@ def radio(title,prompt,options,timeout=None):
 def text(title,prompt,style="text",timeout=None):
     command = {"text": "--inputbox", "password": "--password"}
     try:
-        result = subprocess.run(("kdialog","--title",title,command[style],prompt), timeout=timeout)
+        result = subprocess.run(
+            ("kdialog","--title",title,command[style],prompt),
+            stdout=subprocess.PIPE,
+            encoding="UTF-8",
+            timeout=timeout
+        )
     except subprocess.TimeoutExpired:
         return None
     else:
-        return result.stdout.decode("utf-8") if result.returncode==0 else None
+        return result.stdout if result.returncode==0 else None
 
 class progress():
     def __init__(self, title: str, prompt: str, maxval:int = 100):
-        self.maxval = 100
+        self.maxval = maxval
         self.process = subprocess.check_output(("kdialog", "--title", title, "--progressbar", prompt, str(self.maxval)))[:-1].decode("utf-8").split(" ")
     def close(self):
         subprocess.run(["qdbus"]+ self.process + ["close"])
