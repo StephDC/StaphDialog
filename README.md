@@ -14,11 +14,12 @@ staphdialog.api.radio("My Title", "My prompt", ("a", "bunch", "of", "options"))
 For a return value of None, it means user cancelled the interaction, the interaction timed out, or the user did not make a choice.
 
 ## Dependencies
-Currently three backends are supported:
+Currently these backends are supported:
 
 1. kdialog
 1. zenity
 1. tk
+1. dialog
 
 During import, the first one from the list that looks available to use would be imported and aliased as `staphdialog.api`.
 
